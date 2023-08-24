@@ -1,0 +1,20 @@
+name: Practice Github Actions Expression
+on:
+  workflow_dispatch:
+jobs:
+  practice_expression:
+    runs-on: ubuntu-latest
+    env:
+      HELLO_WORLD: 'Hello world'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Practice expressions
+        run: |
+          echo ${{ true }}
+          echo ${{ false }}
+          echo ${{ contains(env.HELLO_WORLD, 'llo') }}
+          echo ${{ startsWith(env.HELLO_WORLD, 'Hel') }}
+          echo ${{ endsWith(env.HELLO_WORLD, 'rld') }}
+          echo ${{ format('Hello {0}', 'world') }}
+          echo ${{ hashFiles('build.gradle') }}
