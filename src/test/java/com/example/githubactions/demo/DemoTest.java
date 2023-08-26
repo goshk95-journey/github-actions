@@ -12,4 +12,9 @@ public class DemoTest {
   void succeed() {
     assertThat(isTrue).isTrue();
   }
+
+  @Test
+  void fail() {
+    assertThat(isTrue).isFalse();
+  }
 }
