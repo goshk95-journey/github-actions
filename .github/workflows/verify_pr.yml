@@ -59,7 +59,7 @@ jobs:
             const pullRequestNumber = payload.pull_request.number;
             
             const pullRequestComment = 
-              '✅Your pull request is verified. Please request a code review.';
+              '✅ Your pull request is verified. Please request a code review.';
             await github.rest.issues.createComment({
               owner,
               repo: repoName,
@@ -104,7 +104,7 @@ jobs:
             }
             
             const pullRequestComment = 
-              '🚫Your pull request is not verified. Please check your source code.'
+              '🚫 Your pull request is not verified. Please check your source code.'
             await github.rest.issues.createComment({
               ...commonRequestBody,
               issue_number: pullRequestNumber,
