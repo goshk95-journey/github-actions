@@ -1,0 +1,46 @@
+name: Print Job Summary
+on:
+  workflow_dispatch:
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate job summary using Markdown
+        run: |
+          echo "# Try Markdown Summary! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # a blank line
+          echo "- Hello World" >> $GITHUB_STEP_SUMMARY
+          echo "- Hello Bye" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| HEADER1 | HEADER2 |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "|    a1   |    a2   |" >> $GITHUB_STEP_SUMMARY
+          echo "|    b1   |    b2   |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- [ ] check1" >> $GITHUB_STEP_SUMMARY
+          echo "- [x] check2" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`console.log('Hello World')\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`java" >> $GITHUB_STEP_SUMMARY
+          echo "public class AClass {" >> $GITHUB_STEP_SUMMARY
+          echo "  private String name;" >> $GITHUB_STEP_SUMMARY
+          echo "  private Integer age;" >> $GITHUB_STEP_SUMMARY
+          echo "}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+  rewrite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rewrite job summary using Markdown
+        run: |
+          echo "# Hello World" >> $GITHUB_STEP_SUMMARY
+          echo "- Hello World" >> $GITHUB_STEP_SUMMARY
+          echo "- Hello Bye" >> $GITHUB_STEP_SUMMARY
+          echo "### Rewrite job summary using Markdown!!" > $GITHUB_STEP_SUMMARY
+  remove:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove job summary
+        run: |
+          echo "# Hello World" >> $GITHUB_STEP_SUMMARY
+          rm $GITHUB_STEP_SUMMARY
