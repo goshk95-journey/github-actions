@@ -1,0 +1,38 @@
+name: Package Deployment
+run-name: ${{ github.workflow }} triggered by ${{ github.actor }} ✨✨✨
+on:
+  registry_package:
+    types:
+      - published
+      - updated
+jobs:
+  deployment:
+    env:
+      PACKAGE_NAME: ${{ github.event.registry_package.name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print package name
+        run: |
+          echo "# Print package name" >> $GITHUB_STEP_SUMMARY
+          echo ":package: package_name: $PACKAGE_NAME" >> $GITHUB_STEP_SUMMARY
+      - name: Extract service name from package name and Set as env
+        run: |
+          echo "# Extract service name from package name and Set as env" >> $GITHUB_STEP_SUMMARY
+          SERVICE_NAME="$(echo "$PACKAGE_NAME" | rev | cut -d '/' -f1 | rev)"
+          echo ":shipit: service_name: $SERVICE_NAME" >> $GITHUB_STEP_SUMMARY
+          echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
+      - name: Deploy package
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          WORKING_DIR: ${{ secrets.WORKING_DIR }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          envs: SERVICE_NAME, WORKING_DIR
+          timeout: 20s
+          script: |
+            cd $WORKING_DIR
+            docker compose -f ./docker-compose.yml pull $SERVICE_NAME
+            docker compose -f ./docker-compose.yml up -d --force-recreate $SERVICE_NAME
